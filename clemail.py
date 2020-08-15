@@ -32,8 +32,6 @@ questions = [
 
 subject = "Send an attachment"
 body = "Here is the attachment"
-sender_email = "tracer00122132@gmail.com"
-receiver_email = "tanmaych32@gmail.com"
 
 # Create a multipart message and set headers
 message = MIMEMultipart()
@@ -44,7 +42,7 @@ message["subject"] = subject
 # Attach body to email
 message.attach(MIMEText(body, "plain"))
 
-filename = "sarthak_chaudhari.pdf"
+filename = ""
 
 # Open PDF file in binary mode
 with open(filename, "rb") as attachment:
