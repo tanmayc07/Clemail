@@ -9,6 +9,6 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        clemail=clemail:cli
+        clemail=clemail:start
     ''',
 )
