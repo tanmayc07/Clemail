@@ -14,7 +14,7 @@ from email.mime.text import MIMEText
 port = 465  # For SSL
 
 header = Figlet(font="slant")
-print(header.renderText("CLEMAIL"))
+
 
 style = style_from_dict({
     Token.QuestionMark: '#fac731 bold',
@@ -109,6 +109,8 @@ def create_email(answers):
 @click.command()
 def start():
     """Test script"""
+    click.secho(header.renderText("CLEMAIL"), fg="bright_blue")
+
     # Create a secure SSL context
     context = ssl.create_default_context()
 
