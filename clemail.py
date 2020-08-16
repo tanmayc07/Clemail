@@ -5,7 +5,7 @@ import smtplib
 import ssl
 import email
 import time
-from PyInquirer import prompt
+from PyInquirer import prompt, style_from_dict, Token
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
@@ -16,53 +16,94 @@ port = 465  # For SSL
 header = Figlet(font="slant")
 print(header.renderText("CLEMAIL"))
 
+style = style_from_dict({
+    Token.QuestionMark: '#fac731 bold',
+    Token.Answer: '#4688f1 bold',
+    Token.Instruction: '',  # default
+    Token.Separator: '#cc5454',
+    Token.Selected: '#0abf5b',  # default
+    Token.Pointer: '#673ab7 bold',
+    Token.Question: '',
+})
+
 questions = [
     {
         'type': 'input',
-        'name': 'sender_email',
-        'message': 'Enter the from email',
+        'name': 'receiver_email',
+        'message': 'Enter the receiver email:',
     },
     {
         'type': 'input',
-        'name': 'receiver_email',
-        'message': 'Enter the receiver email',
+        'name': 'sender_email',
+        'message': 'Enter the sender email:',
+    },
+    {
+        'type': 'password',
+        'name': 'password',
+        'message': 'Enter the password:',
+    },
+    {
+        'type': 'input',
+        'name': 'subject',
+        'message': 'Enter the subject:',
+    },
+    {
+        'type': 'input',
+        'name': 'body',
+        'message': 'Enter the body:',
+    },
+    {
+        'type': 'confirm',
+        'name': 'isAttachment',
+        'message': 'Does your email contain an attachment:'
     }
 ]
 
 
-subject = "Send an attachment"
-body = "Here is the attachment"
+# filename = ""
 
-# Create a multipart message and set headers
-message = MIMEMultipart()
-message["from"] = sender_email
-message["to"] = receiver_email
-message["subject"] = subject
+# # Open PDF file in binary mode
+# with open(filename, "rb") as attachment:
+#     # Add file as application/octet-stream
+#     # Email client can usually download this automatically as attachment
+#     part = MIMEBase("application", "octet-stream")
+#     part.set_payload(attachment.read())
 
-# Attach body to email
-message.attach(MIMEText(body, "plain"))
+# # Encode file in ASCII characters to send by email
+# encoders.encode_base64(part)
 
-filename = ""
+# # Add header as key/value pair to attachment part
+# part.add_header(
+#     "Content-Disposition",
+#     f"attachment; filename= {filename}",
+# )
 
-# Open PDF file in binary mode
-with open(filename, "rb") as attachment:
-    # Add file as application/octet-stream
-    # Email client can usually download this automatically as attachment
-    part = MIMEBase("application", "octet-stream")
-    part.set_payload(attachment.read())
+# # Add attachment to message and convert message to string
+# message.attach(part)
 
-# Encode file in ASCII characters to send by email
-encoders.encode_base64(part)
 
-# Add header as key/value pair to attachment part
-part.add_header(
-    "Content-Disposition",
-    f"attachment; filename= {filename}",
-)
+def create_email(answers):
+    # Create a multipart message and set headers
+    message = MIMEMultipart()
+    password = answers["password"]
+    message["from"] = answers['sender_email']
+    message["to"] = answers['receiver_email']
+    message["subject"] = answers['subject']
+    message["body"] = answers["body"]
+    isAttachment = answers["isAttachment"]
 
-# Add attachment to message and convert message to string
-message.attach(part)
-text = message.as_string()
+    if isAttachment == True:
+        pass
+    else:
+        # Attach body to email
+        message.attach(MIMEText(message["body"], "plain"))
+
+        text = message.as_string()
+
+    return text
+
+
+# tracer00122132@gmail.com
 
 
 @click.command()
@@ -71,16 +112,17 @@ def start():
     # Create a secure SSL context
     context = ssl.create_default_context()
 
-    answers = prompt(questions)
-    print(answers['sender_email'])
+    answers = prompt(questions, style=style)
+    text = create_email(answers)
 
-    # with click.progressbar([x for x in range(100)], color="red") as bar:
-    #     for i in bar:
-    #         time.sleep(0.1)
+    with click.progressbar([x for x in range(100)], label=click.secho("Sending email...", fg="bright_red")) as bar:
+        for i in bar:
+            time.sleep(0.1)
 
     # with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-    #     server.login(sender_email, "tracer00!")
-    #     server.sendmail(sender_email, receiver_email, text)
+    #     server.login(answers["sender_email"], answers["password"])
+    #     server.sendmail(answers["sender_email"],
+    #                     answers["receiver_email"], text)
 
     click.clear()
-    click.secho("Message Sent!", fg="bright_red")
+    click.secho("Email Sent!", fg="bright_red")
