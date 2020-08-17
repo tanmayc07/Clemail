@@ -15,7 +15,6 @@ port = 465  # For SSL
 
 header = Figlet(font="slant")
 
-
 style = style_from_dict({
     Token.QuestionMark: '#fac731 bold',
     Token.Answer: '#4688f1 bold',
