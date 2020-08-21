@@ -80,8 +80,11 @@ questions = [
 # # Add attachment to message and convert message to string
 # message.attach(part)
 
+def create_attachment_email(answers):
+    pass
 
-def create_email(answers):
+
+def create_text_email(answers):
     # Create a multipart message and set headers
     message = MIMEMultipart()
     password = answers["password"]
@@ -114,7 +117,11 @@ def start():
     context = ssl.create_default_context()
 
     answers = prompt(questions, style=style)
-    text = create_email(answers)
+
+    if(answers['isAttachment']) == True:
+        pass
+    else:
+        text = create_text_email(answers)
 
     with click.progressbar([x for x in range(100)], label=click.secho("Sending email...", fg="bright_red")) as bar:
         for i in bar:
