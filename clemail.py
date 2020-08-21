@@ -84,23 +84,10 @@ def create_attachment_email(answers):
     pass
 
 
-def create_text_email(answers):
-    # Create a multipart message and set headers
-    message = MIMEMultipart()
-    password = answers["password"]
-    message["from"] = answers['sender_email']
-    message["to"] = answers['receiver_email']
-    message["subject"] = answers['subject']
-    message["body"] = answers["body"]
-    isAttachment = answers["isAttachment"]
-
-    if isAttachment == True:
-        pass
-    else:
-        # Attach body to email
-        message.attach(MIMEText(message["body"], "plain"))
-
-        text = message.as_string()
+def create_text_email(message):
+    # Attach body to email
+    message.attach(MIMEText(message["body"], "plain"))
+    text = message.as_string()
 
     return text
 
@@ -117,11 +104,18 @@ def start():
     context = ssl.create_default_context()
 
     answers = prompt(questions, style=style)
+    # Create a multipart message and set headers
+    message = MIMEMultipart()
 
     if(answers['isAttachment']) == True:
         pass
     else:
-        text = create_text_email(answers)
+        password = answers["password"]
+        message["from"] = answers['sender_email']
+        message["to"] = answers['receiver_email']
+        message["subject"] = answers['subject']
+        message["body"] = answers["body"]
+        text = create_text_email(message)
 
     with click.progressbar([x for x in range(100)], label=click.secho("Sending email...", fg="bright_red")) as bar:
         for i in bar:
