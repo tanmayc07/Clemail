@@ -6,6 +6,8 @@ setup(
     py_modules=['clemail'],
     install_requires=[
         'Click',
+        'PyInquirer',
+        'pyfiglet'
     ],
     entry_points='''
         [console_scripts]
