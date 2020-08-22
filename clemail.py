@@ -81,10 +81,12 @@ questions = [
 # message.attach(part)
 
 def create_attachment_email(answers):
+    """Function to create an email with attachment files"""
     pass
 
 
 def create_text_email(message):
+    """Function to create a text-based email"""
     # Attach body to email
     message.attach(MIMEText(message["body"], "plain"))
     text = message.as_string()
@@ -97,7 +99,7 @@ def create_text_email(message):
 
 @click.command()
 def start():
-    """Test script"""
+    """Entry point"""
     click.secho(header.renderText("CLEMAIL"), fg="bright_blue")
 
     # Create a secure SSL context
@@ -110,6 +112,7 @@ def start():
     if(answers['isAttachment']) == True:
         pass
     else:
+        # Extract the information from the prompt questions
         password = answers["password"]
         message["from"] = answers['sender_email']
         message["to"] = answers['receiver_email']
@@ -117,6 +120,7 @@ def start():
         message["body"] = answers["body"]
         text = create_text_email(message)
 
+    # Progressbar(Just for fun)
     with click.progressbar([x for x in range(100)], label=click.secho("Sending email...", fg="bright_red")) as bar:
         for i in bar:
             time.sleep(0.1)
