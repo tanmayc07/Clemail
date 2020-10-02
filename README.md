@@ -19,11 +19,9 @@ Installation steps:
 
 . Clone the repository or download the zip and extract
 
-. Navigate to the folder and run the following commands
+. Navigate to the folder and run the following command
        
-       python3 setup.py build
-       
-       python3 setup.py install
+       pip install -e     
 
 
 . After installation is done, run clemail.
