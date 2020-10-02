@@ -20,7 +20,9 @@ Installation steps:
 . Clone the repository or download the zip and extract
 
 . Navigate to the folder and run the following commands
+       
        python3 setup.py build
+       
        python3 setup.py install
 
 
