@@ -20,14 +20,14 @@ Installation steps:
 . Clone the repository or download the zip and extract
 
 . Navigate to the folder and run the following commands
-> python3 setup.py build
->
-> python3 setup.py install
+       python3 setup.py build
+
+       python3 setup.py install
 
 
 . After installation is done, run clemail.
 
-> clemail
+         clemail
 
 . Enter the relevant details and email will be sent.
 
