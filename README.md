@@ -21,7 +21,7 @@ Installation steps:
 
 . Navigate to the folder and run the following command
        
-       pip install clemail    
+       pip install .   
 
 
 . After installation is done, run clemail.
