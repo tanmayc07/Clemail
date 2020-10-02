@@ -21,7 +21,6 @@ Installation steps:
 
 . Navigate to the folder and run the following commands
        python3 setup.py build
-
        python3 setup.py install
 
 
