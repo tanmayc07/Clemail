@@ -10,6 +10,7 @@
 
 A simple Python CLI script to send emails from gmail.
 
+
 Installation steps:
 
 . First set up your gmail account to allow access
