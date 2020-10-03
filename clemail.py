@@ -125,9 +125,10 @@ def start():
         for i in bar:
             time.sleep(0.1)
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-         server.login(answers["sender_email"], answers["password"])
-         server.sendmail(answers["sender_email"],answers["receiver_email"], text)
+    # with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
+    #     server.login(answers["sender_email"], answers["password"])
+    #     server.sendmail(answers["sender_email"],
+    #                     answers["receiver_email"], text)
 
     click.clear()
     click.secho("Email Sent!", fg="bright_red")
