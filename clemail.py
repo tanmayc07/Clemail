@@ -82,7 +82,16 @@ questions = [
 
 def create_attachment_email(answers):
     """Function to create an email with attachment files"""
-    pass
+    filename = input("File_name_with_extension")
+    path = input("Path of the file")
+    attachment = open(path, "rb")
+    part = MIMEBase('application', 'octet-stream') 
+    part.set_payload((attachment).read()) 
+    encoders.encode_base64(part) 
+    part.add_header('Content-Disposition', "attachment; filename= %s" % filename) 
+    message.attach(part)
+    text = message.as_string()
+    return text
 
 
 def create_text_email(message):
