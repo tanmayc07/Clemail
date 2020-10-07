@@ -82,8 +82,8 @@ questions = [
 
 def create_attachment_email(answers):
     """Function to create an email with attachment files"""
-    filename = input("File_name_with_extension")
-    path = input("Path of the file")
+    filename = input("Enter filename with extension :")
+    path = input("Enter  the Path of the file :")
     attachment = open(path, "rb")
     part = MIMEBase('application', 'octet-stream') 
     part.set_payload((attachment).read()) 
@@ -119,7 +119,7 @@ def start():
     message = MIMEMultipart()
 
     if(answers['isAttachment']) == True:
-        pass
+        text=create_attachment_email(answers)
     else:
         # Extract the information from the prompt questions
         password = answers["password"]
