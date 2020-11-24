@@ -80,9 +80,20 @@ questions = [
 # # Add attachment to message and convert message to string
 # message.attach(part)
 
-def create_attachment_email(answers):
+def create_attachment_email(message):
     """Function to create an email with attachment files"""
-    pass
+	message.attach(MIMEText(message["body"], "plain"))
+	filename = input("Enter filename with extension :")
+	path = input("Enter  the Path of the file :")
+ 	attachment = open(path, "rb")
+	part = MIMEBase('application', 'octet-stream') 
+ 	part.set_payload((attachment).read()) 
+ 	encoders.encode_base64(part) 
+  	part.add_header('Content-Disposition', "attachment; filename= %s" % filename) 
+   	message.attach(part)
+   	text = message.as_string()
+   	return text
+
 
 
 def create_text_email(message):
@@ -110,7 +121,12 @@ def start():
     message = MIMEMultipart()
 
     if(answers['isAttachment']) == True:
-        pass
+        password = answers["password"]
+        message["from"] = answers['sender_email']
+        message["to"] = answers['receiver_email']
+        message["subject"] = answers['subject']
+        message["body"] = answers["body"]
+        text=create_attachment_email(message)
     else:
         # Extract the information from the prompt questions
         password = answers["password"]
